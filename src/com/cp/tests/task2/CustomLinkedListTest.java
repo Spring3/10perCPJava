@@ -26,6 +26,7 @@ public class CustomLinkedListTest {
         Assert.assertTrue(linkedList.add("Hello"));
         Assert.assertTrue(linkedList.add("World"));
         Assert.assertTrue(linkedList.add("TestPhrase"));
+        Assert.assertTrue(linkedList.add(null));
     }
 
     @Test(expected = NoSuchElementException.class)
@@ -72,6 +73,89 @@ public class CustomLinkedListTest {
 
     @Test
     public void sizeTest(){
+        String str1 = "string 1";
+        String str2 = "String 2";
+        String str3 = "String 3";
+        String str4 = "String 4";
+        Assert.assertEquals(0, linkedList.size());
+        linkedList.add(str1);
+        Assert.assertEquals(1, linkedList.size());
+        linkedList.add(str2);
+        Assert.assertEquals(2, linkedList.size());
+        linkedList.add(str3);
+        Assert.assertEquals(3, linkedList.size());
+        linkedList.add(str4);
+        Assert.assertEquals(4, linkedList.size());
+    }
 
+    @Test
+    public void clearTest(){
+        linkedList.add("hello");
+        linkedList.add("world");
+        Assert.assertEquals(2, linkedList.size());
+        linkedList.clear();
+        Assert.assertEquals(0, linkedList.size());
+    }
+
+    @Test(expected = NoSuchElementException.class)
+    public void removeFirstTest(){
+        //NoSuchElementException
+        linkedList.removeFirst();
+        linkedList.add("hello");
+        Assert.assertTrue(linkedList.removeFirst());
+        Assert.assertEquals(0, linkedList.size());
+        linkedList.add("java");
+        linkedList.add("<3");
+        Assert.assertTrue(linkedList.removeFirst());
+        Assert.assertEquals("<3", linkedList.getFirst());
+    }
+
+    @Test(expected = NoSuchElementException.class)
+    public void removeLastTest(){
+        //NoSuckElementException
+        linkedList.removeLast();
+        linkedList.add("hello");
+        linkedList.add("world");
+        Assert.assertTrue(linkedList.removeLast());
+        Assert.assertEquals(1, linkedList.size());
+        Assert.assertEquals("hello", linkedList.getLast());
+    }
+
+    @Test
+    public void addFirstTest(){
+        linkedList.addFirst("hello");
+        linkedList.addFirst("world");
+        linkedList.addFirst("ta-da!");
+        Assert.assertEquals("ta-da!", linkedList.getFirst());
+        linkedList.addFirst(null);
+        Assert.assertEquals(null, linkedList.getFirst());
+    }
+
+    @Test
+    public void addLastTest(){
+        linkedList.addLast("hello");
+        linkedList.addLast("world");
+        Assert.assertEquals("world", linkedList.getLast());
+    }
+
+    @Test
+    public void addByIndexTest(){
+        Assert.assertTrue(linkedList.add(5, "hello"));
+        Assert.assertEquals(7, linkedList.size());
+        Assert.assertEquals(null, linkedList.getFirst());
+        Assert.assertTrue(linkedList.add(0, "world"));
+        Assert.assertEquals("world", linkedList.getFirst());
+        Assert.assertEquals(8, linkedList.size());
+        Assert.assertTrue(linkedList.add(4, "test"));
+        Assert.assertEquals(9, linkedList.size());
+    }
+
+    @Test
+    public void getTest(){
+        Assert.assertTrue(linkedList.add("Hello"));
+        Assert.assertTrue(linkedList.add("World"));
+        Assert.assertTrue(linkedList.add(5, "test"));
+        Assert.assertEquals("World", linkedList.get(1));
+        Assert.assertEquals("test", linkedList.get(5));
     }
 }

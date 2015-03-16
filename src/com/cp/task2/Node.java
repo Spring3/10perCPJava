@@ -42,6 +42,7 @@ public class Node<T> {
         value = newValue;
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
