@@ -48,15 +48,15 @@ public class CustomLinkedList<E>{
     }
 
     public boolean contains(E element){
-        if (firstNode == null){
+        if (firstNode == null || element == null ){
             return false;
         }
         if (firstNode.getValue().equals(element))
             return true;
 
-        Node<E> startNode = firstNode;
-        while(!startNode.getNext().equals(firstNode)){
-            if (startNode.getNext().getValue().equals(element)){
+        Node<E> startNode = firstNode.getNext();
+        while(startNode != firstNode){
+            if (startNode.getValue().equals(element)){
                 return true;
             }
             startNode = startNode.getNext();
@@ -64,7 +64,7 @@ public class CustomLinkedList<E>{
         return false;
     }
 
-    public void add(E element){
+    public boolean add(E element){
         if (firstNode == null){
             firstNode = new Node<E>();
             firstNode.setPrevious(firstNode);
@@ -72,10 +72,12 @@ public class CustomLinkedList<E>{
             firstNode.setValue(element);
         }
         else{
+            Node<E> wasLastNode = firstNode.getPrevious();
             Node<E> addedNode = new Node<>(firstNode.getPrevious(), firstNode, element);
-            firstNode.getPrevious().setNext(addedNode);
             firstNode.setPrevious(addedNode);
+            wasLastNode.setNext(addedNode);
         }
+        return true;
     }
 
     public int size(){
