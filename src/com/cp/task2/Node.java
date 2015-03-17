@@ -1,22 +1,26 @@
 package com.cp.task2;
 
+import java.time.LocalDateTime;
+
 /**
  * Created by user on 16.03.2015.
  */
 public class Node<T> {
     public Node(){
-
+        setCreationDate(LocalDateTime.now());
     }
 
     public Node(Node<T> previous, Node<T> next, T value){
         setPrevious(previous);
         setNext(next);
         setValue(value);
+        setCreationDate(LocalDateTime.now());
     }
 
     private Node<T> nextNode;
     private Node<T> prevNode;
     private T value;
+    private LocalDateTime creationDate;
 
     public Node<T> getNext(){
         return nextNode;
@@ -42,6 +46,13 @@ public class Node<T> {
         value = newValue;
     }
 
+    public LocalDateTime getCreationDate(){
+        return creationDate;
+    }
+
+    private void setCreationDate(LocalDateTime date){
+        creationDate = date;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -63,5 +74,10 @@ public class Node<T> {
         result = 31 * result + (prevNode != null ? prevNode.hashCode() : 0);
         result = 31 * result + (value != null ? value.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Node: value= " + value;
     }
 }

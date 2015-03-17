@@ -7,6 +7,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.time.LocalDateTime;
 import java.util.NoSuchElementException;
 
 /**
@@ -18,7 +19,7 @@ public class CustomLinkedListTest {
 
     @Before
     public void init(){
-        linkedList = new CustomLinkedList<>();
+        linkedList = new CustomLinkedList<>(LocalDateTime.now());
     }
 
     @Test
@@ -141,13 +142,13 @@ public class CustomLinkedListTest {
     @Test
     public void addByIndexTest(){
         Assert.assertTrue(linkedList.add(5, "hello"));
-        Assert.assertEquals(7, linkedList.size());
+        Assert.assertEquals(6, linkedList.size());
         Assert.assertEquals(null, linkedList.getFirst());
         Assert.assertTrue(linkedList.add(0, "world"));
         Assert.assertEquals("world", linkedList.getFirst());
-        Assert.assertEquals(8, linkedList.size());
+        Assert.assertEquals(7, linkedList.size());
         Assert.assertTrue(linkedList.add(4, "test"));
-        Assert.assertEquals(9, linkedList.size());
+        Assert.assertEquals(8, linkedList.size());
     }
 
     @Test
@@ -157,5 +158,38 @@ public class CustomLinkedListTest {
         Assert.assertTrue(linkedList.add(5, "test"));
         Assert.assertEquals("World", linkedList.get(1));
         Assert.assertEquals("test", linkedList.get(5));
+    }
+
+    @Test
+    public void collectionTest(){
+        Assert.assertTrue(linkedList.add("Hello"));
+        System.out.println(LocalDateTime.now());
+        Assert.assertEquals(1, linkedList.size());
+        Assert.assertEquals("Hello", linkedList.getFirst());
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        Assert.assertTrue(linkedList.add(5, "World"));
+        System.out.println(LocalDateTime.now());
+        Assert.assertEquals(6, linkedList.size());
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        linkedList.setDate(LocalDateTime.now());
+        System.out.println(LocalDateTime.now());
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        Assert.assertTrue(linkedList.add("test"));
+        System.out.println(LocalDateTime.now());
+        Assert.assertEquals("test", linkedList.getFirst());
+        Assert.assertEquals(1, linkedList.size());
     }
 }

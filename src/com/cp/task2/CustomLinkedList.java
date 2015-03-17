@@ -1,7 +1,7 @@
 package com.cp.task2;
-
-import com.sun.istack.internal.NotNull;
-
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 /**
@@ -9,10 +9,33 @@ import java.util.NoSuchElementException;
  */
 public class CustomLinkedList<E>{
 
-    public CustomLinkedList(){
+    public CustomLinkedList(LocalDateTime date){
+        this.date = date;
     }
 
+    private LocalDateTime date;
     private Node<E> firstNode;
+
+    public void setDate(LocalDateTime date){
+        this.date = date;
+        clean();
+    }
+
+    private void clean() {
+        List<Node<E>> nodesToDelete = new ArrayList<>();
+        for (int i = 0; i < size(); i++) {
+            Node<E> currentNode = getNode(i);
+            if (currentNode != null) {
+                if (currentNode.getCreationDate().toLocalTime().isBefore(date.toLocalTime())) {
+                    nodesToDelete.add(currentNode);
+                }
+            }
+        }
+        for (Node<E> node : nodesToDelete) {
+            remove(node);
+            System.out.println("Node: " + node + " was removed");
+        }
+    }
 
     public E getFirst(){
         if (firstNode == null){
@@ -22,6 +45,7 @@ public class CustomLinkedList<E>{
         {
             return firstNode.getValue();
         }
+
     }
 
     public E getLast(){
@@ -40,7 +64,9 @@ public class CustomLinkedList<E>{
         tempNode.setPrevious(firstNode.getPrevious());
         firstNode.setNext(null);
         firstNode.setPrevious(null);
-        firstNode = tempNode;
+        if (firstNode != tempNode)
+            firstNode = tempNode;
+        firstNode = null;
         return true;
     }
 
@@ -99,7 +125,7 @@ public class CustomLinkedList<E>{
         }
         else{
             Node<E> wasLastNode = firstNode.getPrevious();
-            Node<E> addedNode = new Node<>(firstNode.getPrevious(), firstNode, element);
+            Node<E> addedNode = new Node<>(wasLastNode, firstNode, element);
             firstNode.setPrevious(addedNode);
             wasLastNode.setNext(addedNode);
         }
@@ -131,15 +157,15 @@ public class CustomLinkedList<E>{
 
     private void findAndAdd(int index, E element){
         Node<E> currentNode = firstNode;
-        for (int i = 0; i != index; i++) {
+        for (int i = 1; i != index; i++) {
             if (currentNode.getNext() == firstNode || currentNode.getNext() == null) {
                 addLast(null);
             }
             currentNode = currentNode.getNext();
         }
-        Node<E> newNode = new Node(currentNode.getPrevious(), currentNode, element);
-        currentNode.getPrevious().setNext(newNode);
-        currentNode.setPrevious(newNode);
+        Node<E> newNode = new Node(currentNode, currentNode.getNext(), element);
+        currentNode.getNext().setPrevious(newNode);
+        currentNode.setNext(newNode);
     }
 
     public int size(){
@@ -148,8 +174,8 @@ public class CustomLinkedList<E>{
             index ++;
             Node<E> startNode = firstNode.getNext();
             while (startNode != firstNode) {
-                index++;
                 startNode = startNode.getNext();
+                index++;
             }
 
         }
@@ -157,29 +183,46 @@ public class CustomLinkedList<E>{
     }
 
     public E get(int index) {
-        if (firstNode == null) {
-            throw new NoSuchElementException();
+        return getNode(index).getValue();
+    }
+
+    private Node<E> getNode(int index){
+        if (firstNode == null){
+            return null;
         }
-        if (index > size() || index < 0)
+        else if (index > size() || index < 0){
             throw new IndexOutOfBoundsException();
-        if (index == 0) {
-            return getFirst();
-        }
-        else if (index == size()){
-            return getLast();
         }
 
         Node<E> result = firstNode;
-        for(int i = 0; i != index; i++) {
-            if (result.getNext() == firstNode || result.getNext() == null){
-                throw new IndexOutOfBoundsException();
-            }
+        for (int i = 0 ; i != index; i ++){
             result = result.getNext();
         }
-        return result.getValue();
+        return result;
     }
 
-    public boolean remove(@NotNull E element){
+    private boolean remove(Node<E> nodeToRemove){
+        if (firstNode == null){
+            return false;
+        }
+        if (firstNode == nodeToRemove){
+            removeFirst();
+            return true;
+        }
+        Node<E> currentNode = firstNode.getNext();
+        while (currentNode != firstNode){
+            if (currentNode == nodeToRemove){
+                currentNode.getPrevious().setNext(currentNode.getNext());
+                currentNode.getNext().setPrevious(currentNode.getPrevious());
+                currentNode.setNext(null);
+                currentNode.setPrevious(null);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean remove(E element){
         if (firstNode == null){
             return false;
         }
