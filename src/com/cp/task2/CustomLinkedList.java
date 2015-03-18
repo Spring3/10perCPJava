@@ -133,7 +133,7 @@ public class CustomLinkedList<E> implements CustomList<E>{
     }
 
     public boolean add(int index, E element){
-        if (index < 0){
+        if (index < 0 || index >= size()){
             throw new IndexOutOfBoundsException();
         }
         if (index == 0) {
@@ -162,9 +162,6 @@ public class CustomLinkedList<E> implements CustomList<E>{
     private void findAndAdd(int index, E element){
         Node<E> currentNode = firstNode;
         for (int i = 1; i != index; i++) {
-            if (currentNode.getNext() == firstNode || currentNode.getNext() == null) {
-                addLast(null);
-            }
             currentNode = currentNode.getNext();
         }
         Node<E> newNode = new Node(currentNode, currentNode.getNext(), element);

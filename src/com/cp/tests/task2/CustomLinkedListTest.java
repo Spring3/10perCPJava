@@ -139,19 +139,18 @@ public class CustomLinkedListTest {
         Assert.assertEquals("world", linkedList.getLast());
     }
 
-    @Test
+    @Test(expected = IndexOutOfBoundsException.class)
     public void addByIndexTest(){
         Assert.assertTrue(linkedList.add(5, "hello"));
-        Assert.assertEquals(6, linkedList.size());
-        Assert.assertEquals(null, linkedList.getFirst());
+        Assert.assertEquals(0, linkedList.size());
         Assert.assertTrue(linkedList.add(0, "world"));
         Assert.assertEquals("world", linkedList.getFirst());
-        Assert.assertEquals(7, linkedList.size());
-        Assert.assertTrue(linkedList.add(4, "test"));
-        Assert.assertEquals(8, linkedList.size());
+        Assert.assertEquals(1, linkedList.size());
+        Assert.assertTrue(linkedList.add(0, "test"));
+        Assert.assertEquals(2, linkedList.size());
     }
 
-    @Test
+    @Test(expected = IndexOutOfBoundsException.class)
     public void getTest(){
         Assert.assertTrue(linkedList.add("Hello"));
         Assert.assertTrue(linkedList.add("World"));
@@ -178,9 +177,12 @@ public class CustomLinkedListTest {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        Assert.assertTrue(linkedList.add(5, "World"));
+        Assert.assertTrue(linkedList.add("World"));
+        Assert.assertTrue(linkedList.add("1"));
+        Assert.assertTrue(linkedList.add("2"));
+        Assert.assertTrue(linkedList.add("3"));
         System.out.println(LocalDateTime.now());
-        Assert.assertEquals(6, linkedList.size());
+        Assert.assertEquals(5, linkedList.size());
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
