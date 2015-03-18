@@ -7,7 +7,7 @@ import java.util.NoSuchElementException;
 /**
  * Created by user on 16.03.2015.
  */
-public class CustomLinkedList<E>{
+public class CustomLinkedList<E> implements CustomList<E>{
 
     public CustomLinkedList(LocalDateTime date){
         this.date = date;
@@ -16,7 +16,7 @@ public class CustomLinkedList<E>{
     private LocalDateTime date;
     private Node<E> firstNode;
 
-    public void setDate(LocalDateTime date){
+    public void setDeletionDate(LocalDateTime date){
         this.date = date;
         clean();
     }
@@ -155,6 +155,10 @@ public class CustomLinkedList<E>{
         }
     }
 
+    public boolean isEmpty(){
+        return size() == 0;
+    }
+
     private void findAndAdd(int index, E element){
         Node<E> currentNode = firstNode;
         for (int i = 1; i != index; i++) {
@@ -256,4 +260,6 @@ public class CustomLinkedList<E>{
             firstNode = null;
         }
     }
+
+
 }

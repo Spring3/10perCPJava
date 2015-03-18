@@ -161,6 +161,13 @@ public class CustomLinkedListTest {
     }
 
     @Test
+    public void isEmptyTest(){
+        Assert.assertTrue(linkedList.isEmpty());
+        Assert.assertTrue(linkedList.add("test"));
+        Assert.assertFalse(linkedList.isEmpty());
+    }
+
+    @Test
     public void collectionTest(){
         Assert.assertTrue(linkedList.add("Hello"));
         System.out.println(LocalDateTime.now());
@@ -179,7 +186,7 @@ public class CustomLinkedListTest {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        linkedList.setDate(LocalDateTime.now());
+        linkedList.setDeletionDate(LocalDateTime.now());
         System.out.println(LocalDateTime.now());
         try {
             Thread.sleep(1000);
