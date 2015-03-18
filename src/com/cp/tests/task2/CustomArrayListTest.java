@@ -151,5 +151,25 @@ public class CustomArrayListTest {
         Assert.assertEquals(0, arrayList.size());
     }
 
+    @Test
+    public void cleaningTest(){
+        Assert.assertTrue(arrayList.add(1));
+        Assert.assertTrue(arrayList.add(1));
+        Assert.assertTrue(arrayList.add(1));
+        Assert.assertTrue(arrayList.add(1));
+        Assert.assertTrue(arrayList.add(1));
+        Assert.assertTrue(arrayList.add(1));
+        Assert.assertTrue(arrayList.add(1));
+        Assert.assertEquals(7, arrayList.size());
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        arrayList.setDeletionDate(LocalDateTime.now());
+        Assert.assertEquals(0, arrayList.size());
+
+    }
+
 
 }

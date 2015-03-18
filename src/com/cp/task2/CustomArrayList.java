@@ -117,8 +117,9 @@ public class CustomArrayList<E> implements CustomList<E> {
         if (size() == itemArray.length -1){
             widen();
         }
-        itemArray[size()] = element;
-        itemCreationDates[size()] = LocalDateTime.now();
+        int size = size();
+        itemArray[size] = element;
+        itemCreationDates[size] = LocalDateTime.now();
         return true;
     }
 
@@ -156,7 +157,8 @@ public class CustomArrayList<E> implements CustomList<E> {
         Object[] tempArray = new Object[itemArray.length -1];
         LocalDateTime[] tempDates = new LocalDateTime[itemArray.length-1];
         int index = 0;
-        for (int i = 0; i < itemArray.length; i++){
+        int size = size();
+        for (int i = 0; i < size; i++){
             if (itemArray[i].equals(element)){
                 index = i;
                 break;
@@ -164,7 +166,7 @@ public class CustomArrayList<E> implements CustomList<E> {
             tempArray[i] = itemArray[i];
             tempDates[i] = itemCreationDates[i];
         }
-        for (int i = index; i < itemArray.length -1; i++){
+        for (int i = index; i < size-1; i++){
             tempArray[i] = itemArray[++index];
             tempDates[i] = itemCreationDates[index];
         }
@@ -187,9 +189,11 @@ public class CustomArrayList<E> implements CustomList<E> {
     }
 
     private void clean(){
-        for (int i = 0 ; i < itemCreationDates.length; i ++){
-            if (itemCreationDates[i].toLocalTime().isBefore(deletionDate.toLocalTime())){
-                remove((E)itemArray[i]);
+        int size = size();
+        while (size > 0){
+            if (itemCreationDates[size-1].toLocalTime().isBefore(deletionDate.toLocalTime())){
+                remove((E)itemArray[size-1]);
+                --size;
             }
         }
     }
