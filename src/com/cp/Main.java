@@ -1,39 +1,34 @@
 package com.cp;
 
-import com.cp.task1.Shuffler;
+import com.cp.task4.PhoneParser;
 
-import java.util.Arrays;
-import java.util.Random;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 public class Main {
 
     public static void main(String[] args) {
-        /*                     Task 1
-            Implement application that “shuffle” an array randomly.
-            Just 25% of array elements should be “shuffled”.
-            “Shuffled” positions are chosen randomly too.
-            Implement unit tests for this functionality.
-            Array can be multidimensional. Array is input param.
-         */
+        System.out.println("TASK 4");
+        PhoneParser phoneParser = new PhoneParser();
+        BufferedReader reader  = new BufferedReader(new InputStreamReader(System.in));
+        boolean doParsilis = false;
+        try {
+            while(!doParsilis) {
+                System.out.println("Please, enter a phone number");
+                String phoneNumber = reader.readLine();
+                System.out.println("Result: " + phoneParser.matches(phoneNumber));
+                System.out.println("Let's give it another try?(y/n)");
+                String answer = reader.readLine();
+                if (answer.equals("n") || answer.equals("N")){
+                    doParsilis = true;
+                }
 
-        Integer[] singleDimensionalArray = new Integer[10];
-        Double[][] doubleDimensionalArray = new Double[4][4];
-        Random random = new Random();
-        for(int i = 0; i < singleDimensionalArray.length; i++) {
-            singleDimensionalArray[i] = random.nextInt(Integer.MAX_VALUE);
-        }
-        for (int i = 0; i < doubleDimensionalArray.length; i ++){
-            for (int j = 0; j < doubleDimensionalArray[0].length; j++){
-                doubleDimensionalArray[i][j] = random.nextDouble() * 100;
             }
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-
-        System.out.println("TASK 1");
-        Shuffler<Integer> shuffler = new Shuffler<>();
-        shuffler.shuffle(singleDimensionalArray);
-
-        Shuffler<Double> shufflerDouble = new Shuffler<>();
-        shufflerDouble.shuffle(doubleDimensionalArray);
 
 
     }

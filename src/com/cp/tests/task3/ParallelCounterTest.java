@@ -49,12 +49,12 @@ public class ParallelCounterTest {
 
     @Test
     public void countThreadPoolTest(){
-        double result = counter.countThreadPool(20, 10);
+        double result = counter.countThreadPool(5, 7);
 
         Assert.assertTrue(0 != result);
         System.out.println("TASK 3 RESULT WITH CUSTOM THREAD POOL: " + result);
 
-        double anotherResult = counter.countThreadPool(20, 5);
+        double anotherResult = counter.countThreadPool(5, 5);
         Assert.assertTrue(0 != result);
         Assert.assertTrue(result == anotherResult);
         System.out.println("TASK 3 ANOTHER RESULT WITH CUSTOM THREAD POOL: " + result);

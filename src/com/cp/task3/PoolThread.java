@@ -15,10 +15,15 @@ public class PoolThread extends Thread {
     }
 
     public void run(){
-        while(!isStopped()){
-            try{
-                Runnable runnable = (Runnable) taskQueue.take();
-                runnable.run();
+        Runnable runnable = null;
+        while(!isStopped){
+            try {
+                if (runnable == null) {
+                    runnable = (Runnable) taskQueue.take();
+                    runnable.run();
+                    runnable = null;
+                }
+
             }
             catch (InterruptedException ex){
 

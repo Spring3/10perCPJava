@@ -34,7 +34,8 @@ public class ThreadPool {
     public synchronized void stop(){
         this.isStopped = true;
         for(PoolThread thread : threads){
-            thread.doStop();
+            while(thread.isAlive())
+                thread.doStop();
         }
     }
 }
