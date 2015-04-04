@@ -13,7 +13,10 @@ public class Cleaner {
     public Cleaner() {
     }
 
-    private static final String pattern = "(/[/*] (\\s?\\w+)?)|([*] (\\w+)?) ([*]/$)?";
+    private static final String pattern1 = "^((\\s+)?/[*]{1,2}).*$";
+    private static final String pattern2 = ".*([*]{1,2}/)$";
+    private static final String pattern3 = "^((\\s+)?/{2}).*$";
+    private static final String pattern4 = "^[*].*$";
 
     public void cleanFile(File file){
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file))))
@@ -23,7 +26,12 @@ public class Cleaner {
             String fileString;
             while((fileString = reader.readLine()) != null){
                 String trimmedFileString = fileString.trim();
-                if (trimmedFileString.matches(pattern)){
+                boolean match1 = trimmedFileString.matches(pattern1);
+                boolean match2 = trimmedFileString.matches(pattern2);
+                boolean match3 = trimmedFileString.matches(pattern3);
+                boolean match4 = trimmedFileString.matches(pattern4);
+
+                if (match1 || match2 || match3 || match4){
                     continue;
                 }
                 writer.write(fileString);
